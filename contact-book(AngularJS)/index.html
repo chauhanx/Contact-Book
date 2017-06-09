@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact</title>
+  
+  <link rel='stylesheet ' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="css\style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="wrapper" ng-app="myApp">
+    <div class="container">
+      <div ng-controller="homeCtrl">
+        
+        <div class="col-xs-5">
+          <div class="nav navbar-inverse">
+            
+            <ul class="nav navbar-nav">
+            <li> <h3>Contacts</h3> </li>
+            <li ><a href="#/dialer"><span class="fa fa-phone-square fa-3x"></a></li>
+            <li ><a href="#/home"><span class="fa fa-home fa-3x"></a></li>
+            <li><a href="#/add"><span class="fa fa-plus fa-3x"></a></li>
+          </ul>
+          
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">   
+           
+                <div ><span  ng-click="srch()" class="fa fa-search fa-2x"></span>&nbsp;&nbsp;&nbsp;<input class="form-group" type="text" placeholder="Search Contact..." ng-model="search"></div>
+                <contact class="list-group-item" ng-repeat="contact in contacts | orderBy:'name' | filter:search" > </contact>
+          
+            </li>
+          </ul>
+         </div>
+        <div class="col-xs-7">
+          <div ng-view></div>
+         </div>
+        </div>
+       
+   
+           <script type="text/ng-template" id="contact_info.html">             
+            <div class="list-group-item cntct">  
+                <h2 class="text-center">{{currentContact.name}}</h2>
+             <div class="fr">
+               <img height="100px" width="100px" src="http://www.lowcountryren.com/nestor/Documentation/ionicons-1.4.1/png/512/android-contact.png">
+             </div>
+              
+                <p><label for="email">E-mail:&nbsp;&nbsp;</label>{{currentContact.email}}</p>
+                <p><label for="phone">Phone:&nbsp;&nbsp;</label>{{currentContact.phone}}</p>
+                <p><label for="notes">Notes:&nbsp;&nbsp;</label>{{currentContact.notes}}</p>
+                <a href="#/edit/{{contacts.indexOf(currentContact)}}"><button class="btn btn-primary"><span class="fa fa-edit fa-2x"> </span></button></a>
+                <a href="#/home"><button class="btn btn-danger" ng-click="delete(currentContact)"><span class="fa fa-trash-o fa-2x"> </span></button></a>
+             
+           </div>
+            </script>
+
+            <script type="text/ng-template" id="contact.html">
+            <div class="list-group-item eachCntct">
+              <img src="http://www.lowcountryren.com/nestor/Documentation/ionicons-1.4.1/png/512/android-contact.png" height="20px" width="20px" alt="dp">
+              
+              <a href="#/contact-info/{{contacts.indexOf(contact)}}">
+                {{contact.name}}
+              </a>
+            </div>
+            </script>
+
+            <script type="text/ng-template" id="contact_form.html">
+            <div ng-controller="addContactCtrl" class="list-group-item cntctForm">
+              <p><label for="name">Name:&nbsp;&nbsp;&nbsp;</label><input type="text" ng-model="currentContact.name"></p>
+              <p><label for="email">E-mail:&nbsp;&nbsp;</label><input type="text" ng-model="currentContact.email"></p>
+              <p><label for="phone">Phone:&nbsp;&nbsp;</label><input type="text" ng-model="currentContact.phone"></p>  
+              <p><label for="notes">Notes:&nbsp;&nbsp;</label></p>
+              <textarea name="notes" id="notes" cols="55" rows="5" ng-model="currentContact.notes"></textarea>
+             <p> <a ng-if="path === '/add'" href="#/contact-info/{{contacts.length - 1}}" ng-click="addContact()"><button class="btn btn-success"  >Add</button></a>
+              <a ng-if="path !== '/add'" href="#/home"><button class="btn btn-success" ng-click="">Save Edits</button></a>
+              <a href="#/home"><button class="btn btn-default">Cancel</button></a>
+              </p>
+            </div>
+            </script>
+
+            <script type="text/ng-template" id="default.html">
+            <div class="list-group-item">
+              <h4>Welcome to Home.......</h4>
+            </div>
+            </script>
+            <script type="text/ng-template" id="dialer.html">
+              <div class="display ">
+                <p>{{dialNumber}}</p>
+                <p><button ng-click="fn(1)" class="btn btn-default" >1</button><button ng-click="fn(2)" class="btn btn-default" value="two">2</button><button ng-click="fn(3)" class="btn btn-default" value="three">3</button></p>
+                <p><button ng-click="fn(4)" class="btn btn-default">4</button><button ng-click="fn(5)" class="btn btn-default" value="five">5</button><button ng-click="fn(6)" class="btn btn-default" value="six">6</button></p>
+                <p><button ng-click="fn(7)" class="btn btn-default" >7</button><button ng-click="fn(8)" class="btn btn-default" value="eight">8</button><button ng-click="fn(9)" class="btn btn-default" value="nine">9</button></p>
+                <p><button ng-click="fn("*")" class="btn btn-default" >*</button><button ng-click="fn(0)" class="btn btn-default" value="zero">0</button><button ng-click="fn(#)" class="btn btn-default" value="hash">#</button></p>
+                <p class="fl"><a href="tel:{{dialNumber}}"><button class="btn btn-success"><span class="fa fa-phone"></span></button></p>
+                <p class="new"><a ><button class="btn btn-default" ng-click="cut()"><span class="fa fa-remove"></span></button></p>
+              </div>
+              
+            </script>
+            <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js'></script>
+            <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js'></script>
+            <script src="js\script.js"></script>
+      
+    </div>
+  </div>
+</body>
+</html>
